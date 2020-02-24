@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        id="cordova-plugin-impactlabs-mlkit" version="0.0.1">
+    <name>MLKitPlugin</name>
+
+    <description>An Android Cordova plugin that allows users to display call on native classes defined in the main MLKit Project.</description>
+    <license>MIT</license>
+
+    <keywords>cordova,android,mlkit,firebase,alert</keywords>
+    <repo>https://github.com/newlogic42/MLKitCordovaPlugin.git</repo>
+    <issue>https://github.com/newlogic42/MLKitCordovaPlugin/issues</issue>
+  
+    <engines>
+        <engine name="cordova" version=">=3.0.0"/>
+    </engines>
+  
+    <js-module src="www/mlkitplugin.js" name="MLPlugin">
+        <clobbers target="window.plugins.MLPlugin" />
+    </js-module>
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="MLKitPlugin">
+                <param name="android-package" value="com.impactlabs.cordova.plugin.MLKitPlugin"/>
+            </feature>
+        </config-file>
+
+        <source-file src="src/android/MLKitPlugin.java" target-dir="src/com/impactlabs/cordova/plugin" />
+    </platform>
+</plugin>
