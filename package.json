@@ -1,0 +1,34 @@
+{
+  "name": "cordova-plugin-toastyplugin",
+  "version": "0.0.1",
+  "description": "An Android Cordova plugin that allows users to display call on native classes defined in the main MLKit Project.",
+  "cordova": {
+    "id": "cordova-plugin-impactlabs-mlkit",
+    "platforms": [
+      "android"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/newlogic42/MLKitCordovaPlugin.git"
+  },
+  "keywords": [
+    "ML Kit",
+    "Barcode Scanning",
+    "OCR",
+    "ecosystem:cordova",
+    "cordova-android"
+  ],
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=3.0.0"
+    }
+  ],
+  "author": "Paul John Parreno <paul-john@newlogic.io>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/newlogic42/MLKitCordovaPlugin/issues"
+  },
+  "homepage": "https://github.com/newlogic42/MLKitCordovaPlugin"
+}
