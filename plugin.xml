@@ -15,8 +15,8 @@
         <engine name="cordova" version=">=3.0.0"/>
     </engines>
   
-    <js-module src="www/mlkitplugin.js" name="MLPlugin">
-        <clobbers target="window.plugins.MLPlugin" />
+    <js-module src="www/mlkitplugin.js" name="MLKitPlugin">
+        <clobbers target="window.plugins.MLKitPlugin" />
     </js-module>
     <platform name="android">
         <config-file target="res/xml/config.xml" parent="/*">
