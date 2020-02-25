@@ -13,7 +13,7 @@ import org.json.JSONObject;
 import com.impactlabs.mlkitdemo.MLKitBaseActivity;
 
 public class MLKitPlugin extends CordovaPlugin {
-  private static final String DURATION_LONG = "long";
+  
   @Override
   public boolean execute(String action, JSONArray args,
     final CallbackContext callbackContext) {
