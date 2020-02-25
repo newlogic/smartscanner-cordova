@@ -1,5 +1,5 @@
 {
-  "name": "cordova-plugin-toastyplugin",
+  "name": "cordova-plugin-impactlabs-mlkit",
   "version": "0.0.1",
   "description": "An Android Cordova plugin that allows users to display call on native classes defined in the main MLKit Project.",
   "cordova": {

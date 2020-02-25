@@ -16,7 +16,7 @@
     </engines>
   
     <js-module src="www/mlkitplugin.js" name="MLKitPlugin">
-        <clobbers target="window.plugins.MLKitPlugin" />
+        <clobbers target="window.plugins.mlkitplugin" />
     </js-module>
     <platform name="android">
         <config-file target="res/xml/config.xml" parent="/*">
