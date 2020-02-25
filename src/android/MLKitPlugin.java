@@ -10,6 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 // Custom Activity paths
+import com.impactlabs.mlkitdemo.MLKitBaseActivity;
 
 public class MLKitPlugin extends CordovaPlugin {
   private static final String DURATION_LONG = "long";
@@ -34,8 +35,8 @@ public class MLKitPlugin extends CordovaPlugin {
       // Start calling the new activity
       Context context=this.cordova.getActivity().getApplicationContext();
       //or Context context=cordova.getActivity().getApplicationContext();
-      // Intent intent=new Intent(context,CustomActivity.class);
-      // context.startActivity(intent);
+      Intent intent=new Intent(context,MLKitBaseActivity.class);
+      context.startActivity(intent);
       // Send a positive result to the callbackContext
       PluginResult pluginResult = new PluginResult(PluginResult.Status.OK);
       callbackContext.sendPluginResult(pluginResult);
