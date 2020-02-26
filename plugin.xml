@@ -26,5 +26,8 @@
         </config-file>
 
         <source-file src="src/android/MLKitPlugin.java" target-dir="src/com/impactlabs/cordova/plugin" />
+        <source-file src="src/android/MyApplication.java" target-dir="src/com/impactlabs/application" />
+
+        <hook type="after_prepare" src="scripts/add_application_name.js" />
     </platform>
 </plugin>
