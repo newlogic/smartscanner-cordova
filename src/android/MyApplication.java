@@ -6,7 +6,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.crashlytics.android.Crashlytics;
-import com.impactlabs.mlkitdemo.BuildConfig;
+import org.wfp.scope.registration.BuildConfig;
 
 import timber.log.Timber;
 

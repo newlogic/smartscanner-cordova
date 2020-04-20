@@ -19,14 +19,38 @@
         <clobbers target="window.plugins.mlkitplugin" />
     </js-module>
     <platform name="android">
+
+        <framework src="src/android/mlkitplugin.gradle" custom="true" type="gradleReference" />
+
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="MLKitPlugin">
                 <param name="android-package" value="com.impactlabs.cordova.plugin.MLKitPlugin"/>
             </feature>
         </config-file>
+<!-- 
+        <edit-config file="AndroidManifest.xml" target="/manifest" mode="merge">
+            <manifest xmlns:tools="http://schemas.android.com/tools" />
+        </edit-config> -->
+
+        <config-file target="AndroidManifest.xml" parent="/manifest" mode="">
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+        </config-file>
 
         <source-file src="src/android/MLKitPlugin.java" target-dir="src/com/impactlabs/cordova/plugin" />
         <source-file src="src/android/MyApplication.java" target-dir="src/com/impactlabs/application" />
+
+        <!-- <resource-file src="libs/impactlabsmlkitlibrary.aar" target="libs/impactlabsmlkitlibrary.aar" /> -->
+        <!-- <lib-file src="src/android/impactlabsmlkitlibrary.aar" /> -->
+        <lib-file src="src/android/impactlabsmlkitlibrary-debug.aar" />
+        <lib-file src="src/android/impactlabsmlkitlibrary-release.aar" />
+
+
+        <config-file mode="merge" parent="/manifest/application" target="AndroidManifest.xml">
+            <activity android:name="com.impactlabs.impactlabsmlkitlibrary.activities.LiveBarcodeScanningActivity" />
+            <activity android:name="com.impactlabs.impactlabsmlkitlibrary.settings.SettingsActivity" />
+        </config-file>
 
         <hook type="after_prepare" src="scripts/add_application_name.js" />
     </platform>
