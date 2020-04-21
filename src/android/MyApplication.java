@@ -1,6 +1,6 @@
 package com.impactlabs.application;
 
-import android.app.Application;
+import androidx.multidex.MultiDexApplication;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -10,7 +10,7 @@ import org.wfp.scope.registration.BuildConfig;
 
 import timber.log.Timber;
 
-public class MyApplication extends Application
+public class MyApplication extends MultiDexApplication
 {
 
     @Override
