@@ -48,8 +48,10 @@
 
 
         <config-file mode="merge" parent="/manifest/application" target="AndroidManifest.xml">
-            <activity android:name="com.impactlabs.impactlabsmlkitlibrary.activities.LiveBarcodeScanningActivity" />
-            <activity android:name="com.impactlabs.impactlabsmlkitlibrary.settings.SettingsActivity" />
+            <activity android:name="com.impactlabs.impactlabsmlkitlibrary.activities.LiveBarcodeScanningActivity" 
+                android:theme="@style/AppTheme"/>
+            <activity android:name="com.impactlabs.impactlabsmlkitlibrary.settings.SettingsActivity" 
+                android:theme="@style/AppTheme"/>
         </config-file>
 
         <hook type="after_prepare" src="scripts/add_application_name.js" />
