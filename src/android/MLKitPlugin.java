@@ -68,7 +68,6 @@ public class MLKitPlugin extends CordovaPlugin {
                 Timber.d("Plugin post ML Activity result %s", returnedResult);
                 pluginResult = new PluginResult(PluginResult.Status.OK, returnedResult);
             } else {
-
                 callbackContext.error("Scanning Failed.");
                 pluginResult = new PluginResult(PluginResult.Status.ERROR, "Scanning Failed.");
             }
