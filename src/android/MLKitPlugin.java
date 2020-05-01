@@ -64,7 +64,7 @@ public class MLKitPlugin extends CordovaPlugin {
         if (requestCode == OP_MLKIT) {
             Timber.d("Plugin post ML Activity resultCode %d", resultCode);
             if (resultCode == Activity.RESULT_OK) {
-                String returnedResult = intent.getData().toString();
+                String returnedResult = intent.getStringExtra(LiveBarcodeScanningActivity.KEY_BARCODE_RESULT);
                 Timber.d("Plugin post ML Activity result %s", returnedResult);
                 pluginResult = new PluginResult(PluginResult.Status.OK, returnedResult);
             } else {
