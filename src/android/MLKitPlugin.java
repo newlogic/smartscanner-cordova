@@ -27,28 +27,16 @@ public class MLKitPlugin extends CordovaPlugin {
                            final CallbackContext callbackContext) {
 
         this.callbackContext = callbackContext;
-        // Verify that the user sent a 'show' action
+        // Verify that the user sent a 'startMLActivity' action
         if (!action.equals("startMLActivity")) {
             callbackContext.error("\"" + action + "\" is not a recognized action.");
             return false;
         }
-        // String message;
-        // String duration;
-        // try {
-        //   JSONObject options = args.getJSONObject(0);
-        //   message = options.getString("message");
-        //   duration = options.getString("duration");
-        // } catch (JSONException e) {
-        //   callbackContext.error("Error encountered: " + e.getMessage());
-        //   return false;
-        // }
         // Start calling the new activity
         Activity activity = this.cordova.getActivity();
-        //or Context context=cordova.getActivity().getApplicationContext();
         Intent intent = new Intent(activity, LiveBarcodeScanningActivity.class);
         cordova.setActivityResultCallback (this);
         activity.startActivityForResult(intent,OP_MLKIT);
-        // Send a positive result to the callbackContext
 
         return true;
     }
@@ -59,21 +47,23 @@ public class MLKitPlugin extends CordovaPlugin {
 
         PluginResult pluginResult;
 
-
-
         if (requestCode == OP_MLKIT) {
             Timber.d("Plugin post ML Activity resultCode %d", resultCode);
+        
             if (resultCode == Activity.RESULT_OK) {
-                String returnedResult = intent.getStringExtra(LiveBarcodeScanningActivity.KEY_BARCODE_RESULT);
+                String returnedResul = intent.getStringExtra(LiveBarcodeScanningActivity.KEY_BARCODE_RESULT);
                 Timber.d("Plugin post ML Activity result %s", returnedResult);
                 pluginResult = new PluginResult(PluginResult.Status.OK, returnedResult);
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+				Timber.d("Plugin post ML Activity. RESULT CANCELLED");
+                pluginResult = new PluginResult(PluginResult.Status.NO_RESULT, "Scanning Cancelled.");
             } else {
                 callbackContext.error("Scanning Failed.");
                 pluginResult = new PluginResult(PluginResult.Status.ERROR, "Scanning Failed.");
             }
         } else {
-            callbackContext.error("Scanning Failed.");
-            pluginResult = new PluginResult(PluginResult.Status.ERROR, "Scanning Failed.");
+            callbackContext.error("Unknown Request Code!");
+            pluginResult = new PluginResult(PluginResult.Status.ERROR, "Unknown Request Code!");
         }
 
 
