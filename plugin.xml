@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        id="cordova-plugin-impactlabs-mlkit" version="0.1.3">
+        id="cordova-plugin-impactlabs-mlkit" version="0.1.4">
     <name>MLKitPlugin</name>
 
     <description>An Android Cordova plugin that allows users to display call on native classes defined in the main MLKit Project.</description>
