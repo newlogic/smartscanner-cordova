@@ -1,0 +1,3 @@
+include ':impactlabsmlkitlibrary'
+include ':app'
+rootProject.name = "MLKitDemo"

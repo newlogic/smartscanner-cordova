@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">CameraX App</string>
+    <string name="ModelText">OCR Models are not yet available</string>
+</resources>

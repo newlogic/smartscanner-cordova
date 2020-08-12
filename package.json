@@ -1,7 +1,7 @@
 {
   "name": "cordova-plugin-impactlabs-mlkit",
-  "version": "0.1.7",
-  "description": "An Android Cordova plugin that allows users to display call on native classes defined in the main MLKit Project.",
+  "version": "0.2.0",
+  "description": "An Android Cordova plugin that allows users to display call on native classes defined in other MLKit Projects.",
   "cordova": {
     "id": "cordova-plugin-impactlabs-mlkit",
     "platforms": [
@@ -17,7 +17,9 @@
     "Barcode Scanning",
     "OCR",
     "ecosystem:cordova",
-    "cordova-android"
+    "cordova-android",
+    "MRZ",
+    "PDF417"
   ],
   "engines": [
     {
@@ -25,7 +27,7 @@
       "version": ">=3.0.0"
     }
   ],
-  "author": "Paul John Parreno <paul-john@newlogic.io>",
+  "author": "Newlogic",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/newlogic42/MLKitCordovaPlugin/issues"

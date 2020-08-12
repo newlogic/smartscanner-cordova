@@ -16,7 +16,6 @@ buildscript {
     }
 }
 
-
 allprojects {
     repositories {
     	google() 
@@ -44,12 +43,13 @@ android {
 
 dependencies {
 	implementation fileTree(include: ['*.jar'], dir: 'libs')
-	// compile(name:'impactlabsmlkitlibrary', ext:'aar')
     implementation 'androidx.multidex:multidex:2.0.1'
 
-    debugImplementation files('libs/impactlabsmlkitlibrary-debug.aar')
-
-    releaseImplementation files('libs/impactlabsmlkitlibrary-release.aar')
+    debugImplementation files('libs/pdf417barcodelibrary-debug.aar')
+    debugImplementation files('libs/mrzlibrary-debug.aar')
+    
+    releaseImplementation files('libs/pdf417barcodelibrary-release.aar')
+    releaseImplementation files('libs/mrzlibrary-release.aar')
 
      // AndroidX
     implementation 'androidx.appcompat:appcompat:1.1.0'
@@ -59,9 +59,16 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.preference:preference:1.1.1'
 
+    // ML Kit dependencies
+    implementation 'com.google.android.gms:play-services-mlkit-text-recognition:16.1.0'
+    implementation 'com.google.android.gms:play-services-vision:20.1.0'
+    implementation 'com.google.android.gms:play-services-vision-common:19.1.0'
+    implementation 'com.google.android.gms:play-services-vision-image-label:18.0.4'
+    
     // Firebase
-    implementation 'com.google.firebase:firebase-ml-vision:24.0.2'
-    implementation 'com.google.firebase:firebase-ml-vision-barcode-model:16.1.0'
+    implementation 'com.google.firebase:firebase-ml-common:22.1.1'
+    implementation 'com.google.firebase:firebase-ml-vision:24.0.3'
+    implementation 'com.google.firebase:firebase-ml-vision-barcode-model:16.1.1'
 
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.11.0'
@@ -79,6 +86,24 @@ dependencies {
 
     // Timber
     implementation 'com.jakewharton.timber:timber:4.7.1'
+    
+    // CameraX
+    def camerax_version = "1.0.0-beta06"
+    // CameraX core library using camera2 implementation
+    implementation "androidx.camera:camera-camera2:$camerax_version"
+    // CameraX Lifecycle Library
+    implementation "androidx.camera:camera-lifecycle:$camerax_version"
+    // CameraX View class
+    implementation "androidx.camera:camera-view:1.0.0-alpha12"
+
+    // MRZ
+    implementation 'org.slf4j:slf4j-android:1.7.30'
+
+    // Tesseract4Android
+    implementation 'cz.adaptech.android:tesseract4android:2.1.0'
+
+    // gson
+    implementation 'com.google.code.gson:gson:2.8.6'
 }
 
 apply plugin: com.google.gms.googleservices.GoogleServicesPlugin

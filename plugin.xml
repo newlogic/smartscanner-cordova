@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        id="cordova-plugin-impactlabs-mlkit" version="0.1.6">
+        id="cordova-plugin-impactlabs-mlkit" version="0.2.0">
     <name>MLKitPlugin</name>
 
-    <description>An Android Cordova plugin that allows users to display call on native classes defined in the main MLKit Project.</description>
+    <description>An Android Cordova plugin that allows users to display call on native classes defined in other MLKit Projects.</description>
     <license>MIT</license>
 
     <keywords>cordova,android,mlkit,firebase,alert</keywords>
@@ -27,10 +27,6 @@
                 <param name="android-package" value="com.impactlabs.cordova.plugin.MLKitPlugin"/>
             </feature>
         </config-file>
-<!-- 
-        <edit-config file="AndroidManifest.xml" target="/manifest" mode="merge">
-            <manifest xmlns:tools="http://schemas.android.com/tools" />
-        </edit-config> -->
 
         <config-file target="AndroidManifest.xml" parent="/manifest" mode="">
             <uses-permission android:name="android.permission.INTERNET"/>
@@ -39,21 +35,19 @@
         </config-file>
 
         <source-file src="src/android/MLKitPlugin.java" target-dir="src/com/impactlabs/cordova/plugin" />
-        <source-file src="src/android/MyApplication.java" target-dir="src/com/impactlabs/application" />
 
-        <!-- <resource-file src="libs/impactlabsmlkitlibrary.aar" target="libs/impactlabsmlkitlibrary.aar" /> -->
-        <!-- <lib-file src="src/android/impactlabsmlkitlibrary.aar" /> -->
-        <lib-file src="src/android/impactlabsmlkitlibrary-debug.aar" />
-        <lib-file src="src/android/impactlabsmlkitlibrary-release.aar" />
-
+        <lib-file src="aar/pdf417barcodelibrary-debug.aar" />
+        <lib-file src="aar/pdf417barcodelibrary-release.aar" />
+        <lib-file src="aar/mrzlibrary-debug.aar" />
+        <lib-file src="aar/mrzlibrary-release.aar" />
 
         <config-file mode="merge" parent="/manifest/application" target="AndroidManifest.xml">
             <activity android:name="com.impactlabs.impactlabsmlkitlibrary.activities.LiveBarcodeScanningActivity" 
                 android:theme="@style/AppTheme"/>
             <activity android:name="com.impactlabs.impactlabsmlkitlibrary.settings.SettingsActivity" 
                 android:theme="@style/AppTheme"/>
+            <activity android:name="com.newlogic.mrzlibrary.MRZActivity" 
+                android:theme="@style/AppTheme"/>
         </config-file>
-
-        <hook type="after_prepare" src="scripts/add_application_name.js" />
     </platform>
 </plugin>
