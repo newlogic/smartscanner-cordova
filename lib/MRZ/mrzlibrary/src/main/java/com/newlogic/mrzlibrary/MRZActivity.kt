@@ -9,12 +9,16 @@ import android.content.pm.PackageManager
 import android.graphics.*
 import android.hardware.camera2.CameraManager
 import android.media.Image
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Switch
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.*
 import androidx.camera.core.Camera
@@ -27,6 +31,7 @@ import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
 import com.googlecode.tesseract.android.TessBaseAPI
 import kotlinx.android.synthetic.main.activity_mrz.*
+import kotlinx.android.synthetic.main.activity_mrz.view.*
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -34,17 +39,20 @@ import java.net.URLEncoder
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import kotlin.concurrent.thread
-import kotlin.math.roundToInt
+import kotlin.math.abs
 
 //typealias LumaListener = (luma: String) -> Unit
 
 
-class MRZActivity : AppCompatActivity() {
+class MRZActivity : AppCompatActivity(), View.OnClickListener {
 
     private var preview: Preview? = null
     private var imageAnalyzer: ImageAnalysis? = null
     private var tessImageAnalyzer: ImageAnalysis? = null
     private var camera: Camera? = null
+    private var flashButton: View? = null
+
+    private var hasRequiredPermissions = false
 
     private lateinit var outputDirectory: File
     private lateinit var cameraExecutor: ExecutorService
@@ -68,8 +76,9 @@ class MRZActivity : AppCompatActivity() {
         var debug: Boolean? = false
     }
 
-    private var y1 = 0f
-    private var y2 = 0f
+    private val clickThreshold = 5
+    private var x = 0f
+    private var y = 0f
 
     data class MRZResult (
         val imagePath: String?,
@@ -191,6 +200,44 @@ class MRZActivity : AppCompatActivity() {
             ostream.close()
         }
 
+        fun getConnectionType(context: Context): Int {
+            var result = 0 // Returns connection type. 0: none; 1: mobile data; 2: wifi
+            val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                cm?.run {
+                    cm.getNetworkCapabilities(cm.activeNetwork)?.run {
+                        when {
+                            hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> {
+                                result = 2
+                            }
+                            hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> {
+                                result = 1
+                            }
+                            hasTransport(NetworkCapabilities.TRANSPORT_VPN) -> {
+                                result = 3
+                            }
+                        }
+                    }
+                }
+            } else {
+                cm?.run {
+                    cm.activeNetworkInfo?.run {
+                        when (type) {
+                            ConnectivityManager.TYPE_WIFI -> {
+                                result = 2
+                            }
+                            ConnectivityManager.TYPE_MOBILE -> {
+                                result = 1
+                            }
+                            ConnectivityManager.TYPE_VPN -> {
+                                result = 3
+                            }
+                        }
+                    }
+                }
+            }
+            return result
+        }
         @SuppressLint("UnsafeExperimentalUsageError")
         override fun analyze(imageProxy: ImageProxy) {
 
@@ -301,6 +348,11 @@ class MRZActivity : AppCompatActivity() {
                             }
                             .addOnFailureListener { e ->
                                 Log.d("$TAG/MLKit", "TextRecognition: failure: ${e.message}")
+                                if (getConnectionType(context) == 0) {
+                                    modelLayoutView.modelText.text = context.getString(R.string.ConnectionText)
+                                } else {
+                                    modelLayoutView.modelText.text = context.getString(R.string.ModelText)
+                                }
                                 modelLayoutView.visibility = View.VISIBLE
                                 onStat?.invoke(
                                     AnalyzerType.MLKIT,
@@ -375,6 +427,15 @@ class MRZActivity : AppCompatActivity() {
         }
     }
 
+
+    private fun openSettingsApp() {
+        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+        val uri = Uri.fromParts("package", packageName, null)
+        intent.data = uri
+        startActivity(intent)
+    }
+
+
     override fun onRequestPermissionsResult(
         requestCode: Int, permissions: Array<String>, grantResults:
         IntArray) {
@@ -382,10 +443,14 @@ class MRZActivity : AppCompatActivity() {
             if (allPermissionsGranted()) {
                 startCamera()
             } else {
-                Toast.makeText(this,
-                    "Permissions not granted by the user.",
-                    Toast.LENGTH_SHORT).show()
-                finish()
+                val snackbar: Snackbar = Snackbar.make(
+                    CoordinatorLayoutView,
+                    R.string.required_perms_not_given, Snackbar.LENGTH_INDEFINITE
+                )
+                snackbar.setAction(R.string.settings, View.OnClickListener {
+                    openSettingsApp()
+                })
+                snackbar.show()
             }
         }
     }
@@ -394,6 +459,10 @@ class MRZActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mrz)
         modelLayoutView = findViewById(R.id.modelLayout)
+        CoordinatorLayoutView =  findViewById(R.id.CoordinatorLayout)
+        flashButton = findViewById<View>(R.id.flash_button)
+        findViewById<View>(R.id.close_button).setOnClickListener(this)
+        flashButton?.setOnClickListener(this)
         context = applicationContext
         UIState.mlkit = mlkitCheckbox.isChecked
         UIState.tesseract = tesseractCheckbox.isChecked
@@ -517,6 +586,7 @@ class MRZActivity : AppCompatActivity() {
         private const val REQUEST_CODE_PERMISSIONS = 10
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
         private lateinit var modelLayoutView: View
+        private lateinit var CoordinatorLayoutView: View
         private lateinit var context: Context
     }
 
@@ -551,37 +621,67 @@ class MRZActivity : AppCompatActivity() {
         }
     }
 
+    override fun onClick(view: View) {
+        val id = view.id
+        Log.d(TAG, "view: $id")
+        if (id == R.id.close_button) {
+            onBackPressed()
+        } else if (id == R.id.flash_button) {
+            if (flashButton!!.isSelected) {
+                flashButton!!.isSelected = false
+                camera?.cameraControl?.enableTorch(false)
+            } else {
+                flashButton!!.isSelected = true
+                camera?.cameraControl?.enableTorch(true)
+            }
+        }
+    }
+
+    private fun isAClick(
+        startX: Float,
+        endX: Float,
+        startY: Float,
+        endY: Float
+    ): Boolean {
+        val differenceX = abs(startX - endX)
+        val differenceY = abs(startY - endY)
+        return !(differenceX > clickThreshold || differenceY > clickThreshold)
+    }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        val MIN_DISTANCE = 600
+        val minDistance = 600
         when (event.action) {
-            MotionEvent.ACTION_DOWN -> y1 = event.y
+            MotionEvent.ACTION_DOWN -> {
+                y = event.y
+                x = event.x
+            }
             MotionEvent.ACTION_UP -> {
-
-                val factory: MeteringPointFactory = SurfaceOrientedMeteringPointFactory(
-                    viewFinder.width.toFloat(), viewFinder.height.toFloat()
-                )
-                val autoFocusPoint = factory.createPoint(event.x, event.y)
-                try {
-                    camera!!.cameraControl.startFocusAndMetering(
-                        FocusMeteringAction.Builder(
-                            autoFocusPoint,
-                            FocusMeteringAction.FLAG_AF
-                        ).apply {
-                            //focus only when the user tap the preview
-                            disableAutoCancel()
-                        }.build()
+                if (isAClick(x, event.x, y, event.y)) {
+                    val factory: MeteringPointFactory = SurfaceOrientedMeteringPointFactory(
+                        viewFinder.width.toFloat(), viewFinder.height.toFloat()
                     )
-                } catch (e: CameraInfoUnavailableException) {
-                    Log.d("ERROR", "cannot access camera", e)
-                }
-                y2 = event.y
-                val deltaY = y2 - y1
-                if (deltaY < -MIN_DISTANCE) {
-//                    Toast.makeText(this, "bottom2up swipe: $y1, $y2 -> $deltaY", Toast.LENGTH_SHORT).show()
-                    debugLayout.visibility = View.VISIBLE
-                } else if (deltaY > MIN_DISTANCE) {
-                    debugLayout.visibility = View.INVISIBLE
+                    val autoFocusPoint = factory.createPoint(event.x, event.y)
+                    try {
+                        camera!!.cameraControl.startFocusAndMetering(
+                            FocusMeteringAction.Builder(
+                                autoFocusPoint,
+                                FocusMeteringAction.FLAG_AF
+                            ).apply {
+                                //focus only when the user tap the preview
+                                disableAutoCancel()
+                            }.build()
+                        )
+                    } catch (e: CameraInfoUnavailableException) {
+                        Log.d("ERROR", "cannot access camera", e)
+                    }
+                } else {
+                    val deltaY = event.y - y
+                    if (deltaY < -minDistance) {
+                        // Toast.makeText(this, "bottom2up swipe: $y1, $y2 -> $deltaY", Toast.LENGTH_SHORT).show()
+                        debugLayout.visibility = View.VISIBLE
+                    } else if (deltaY > minDistance) {
+                        debugLayout.visibility = View.INVISIBLE
+                    }
                 }
             }
 

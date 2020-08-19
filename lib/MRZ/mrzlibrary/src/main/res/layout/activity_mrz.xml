@@ -2,11 +2,18 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/CoordinatorLayout"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/black"
     android:textAlignment="gravity"
     tools:context=".MRZActivity">
+
+    <include
+        layout="@layout/top_action_bar_in_live_camera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"/>
 
     <LinearLayout
         android:id="@+id/modelLayout"
@@ -17,13 +24,14 @@
 
         <TextView
             android:id="@+id/modelText"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center_horizontal|center_vertical"
             android:text="@string/ModelText"
             android:textColor="#FFFFFF"
             android:textSize="18sp" />
+
     </LinearLayout>
 
     <ImageView
@@ -95,7 +103,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="1dp"
+            android:layout_marginStart="1dp"
             android:layout_weight="1"
             android:background="@color/transparent_grey"
             android:orientation="vertical"
@@ -113,7 +121,7 @@
             <Switch
                 android:id="@+id/tesseractCheckbox"
                 android:layout_width="match_parent"
-                android:layout_height="24dp"
+                android:layout_height="0dp"
                 android:layout_weight="1"
                 android:checked="false"
                 android:onClick="onTesseractCheckboxClicked"

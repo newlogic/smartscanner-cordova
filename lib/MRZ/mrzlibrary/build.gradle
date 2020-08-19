@@ -7,7 +7,7 @@ android {
     buildToolsVersion '30.0.1'
 
     defaultConfig {
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -41,9 +41,9 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     // ML Kit dependencies
-    implementation 'com.google.firebase:firebase-core:17.4.4'
-    implementation 'com.google.firebase:firebase-ml-common:22.1.1'
-    implementation 'com.google.firebase:firebase-ml-vision:24.0.3'
+//    implementation 'com.google.firebase:firebase-core:17.4.4'
+//    implementation 'com.google.firebase:firebase-ml-common:22.1.1'
+//    implementation 'com.google.firebase:firebase-ml-vision:24.0.3'
     implementation 'com.google.android.gms:play-services-mlkit-text-recognition:16.0.0'
 
 
