@@ -16,6 +16,7 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
+import android.util.Size
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Switch
@@ -306,7 +307,7 @@ class MRZActivity : AppCompatActivity(), View.OnClickListener {
                     scanner.process(image)
                         .addOnSuccessListener { barcodes ->
                             val timeRequired = System.currentTimeMillis() - start
-                            var rawValue = ""
+                            var rawValue: String
                             Log.d("$TAG/MLKit", "barcode: success: $timeRequired ms")
                             if (barcodes.isNotEmpty()) {
                                 //                                val bounds = barcode.boundingBox
@@ -365,6 +366,7 @@ class MRZActivity : AppCompatActivity(), View.OnClickListener {
                                         }
                                     }
                                 }
+                                rectangle!!.isSelected = rawFullRead != ""
 
                                 try {
                                     Log.d(
@@ -527,6 +529,7 @@ class MRZActivity : AppCompatActivity(), View.OnClickListener {
         modelLayoutView = findViewById(R.id.modelLayout)
         CoordinatorLayoutView =  findViewById(R.id.CoordinatorLayout)
         flashButton = findViewById<View>(R.id.flash_button)
+        Companion.rectangle = findViewById<View>(R.id.rectimage)
         findViewById<View>(R.id.close_button).setOnClickListener(this)
         flashButton?.setOnClickListener(this)
         context = applicationContext
@@ -603,9 +606,11 @@ class MRZActivity : AppCompatActivity(), View.OnClickListener {
 //                .setTargetAspectRatio(AspectRatio.RATIO_4_3)
                 .build()
 
+            var size = Size(480, 640)
+            if (mode == "pdf417") size = Size(1080, 1920)
             imageAnalyzer = ImageAnalysis.Builder()
 //                .setTargetAspectRatio(AspectRatio.RATIO_4_3)
-//                .setTargetResolution(Size(960, 720))
+                .setTargetResolution(size)
 //                .setTargetResolution(Size(640, 480))
                 .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                 .build()
@@ -671,6 +676,7 @@ class MRZActivity : AppCompatActivity(), View.OnClickListener {
         private lateinit var CoordinatorLayoutView: View
         private lateinit var context: Context
         private var mode: String? = null
+        private var rectangle: View? = null
     }
 
     fun onMlkitCheckboxClicked(view: View) {
