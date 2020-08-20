@@ -27,12 +27,35 @@
             android:inputType="textMultiLine"
             android:textSize="12sp" />
 
-        <Button
-            android:id="@+id/button"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="startScanningActivity"
-            android:text="EXEC" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="startScanningActivity"
+                android:text="EXEC" />
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="startPDF417ScanningActivity"
+                android:text="pdf417" />
+
+            <Button
+                android:id="@+id/button3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="startBarcodeScanningActivity"
+                android:text="barcode" />
+        </LinearLayout>
 
     </LinearLayout>
 

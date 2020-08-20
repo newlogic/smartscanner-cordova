@@ -27,6 +27,10 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
+import com.google.mlkit.vision.barcode.Barcode
+import com.google.mlkit.vision.barcode.BarcodeScanner
+import com.google.mlkit.vision.barcode.BarcodeScannerOptions
+import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
 import com.googlecode.tesseract.android.TessBaseAPI
@@ -35,6 +39,7 @@ import kotlinx.android.synthetic.main.activity_mrz.view.*
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
+import java.lang.IllegalArgumentException
 import java.net.URLEncoder
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -52,8 +57,6 @@ class MRZActivity : AppCompatActivity(), View.OnClickListener {
     private var camera: Camera? = null
     private var flashButton: View? = null
 
-    private var hasRequiredPermissions = false
-
     private lateinit var outputDirectory: File
     private lateinit var cameraExecutor: ExecutorService
 
@@ -67,7 +70,8 @@ class MRZActivity : AppCompatActivity(), View.OnClickListener {
 
     enum class AnalyzerType {
         MLKIT,
-        TESSERACT
+        TESSERACT,
+        BARCODE
     }
 
     private object UIState {
@@ -97,18 +101,30 @@ class MRZActivity : AppCompatActivity(), View.OnClickListener {
         var mrz: String?
     )
 
+    data class barcodeResult (
+        val imagePath: String?,
+        val value: String?
+    )
+
     private fun getAnalyzerResult(analyzerType: AnalyzerType, result: String): Unit {
         runOnUiThread {
-            if (analyzerType == AnalyzerType.MLKIT) {
-                Log.d(TAG, "Success from MLKit")
-                mlkitCheckbox.isChecked = false
-                onMlkitCheckboxClicked(mlkitCheckbox)
-                mlkitText.text = result
-            } else if (analyzerType == AnalyzerType.TESSERACT) {
-                Log.d(TAG, "Success from Tesseract")
-                tesseractCheckbox.isChecked = false
-                onTesseractCheckboxClicked(tesseractCheckbox)
-                tesseractText.text = result
+            when (analyzerType) {
+                AnalyzerType.MLKIT -> {
+                    Log.d(TAG, "Success from MLKit")
+                    mlkitCheckbox.isChecked = false
+                    onMlkitCheckboxClicked(mlkitCheckbox)
+                    mlkitText.text = result
+                }
+                AnalyzerType.TESSERACT -> {
+                    Log.d(TAG, "Success from Tesseract")
+                    tesseractCheckbox.isChecked = false
+                    onTesseractCheckboxClicked(tesseractCheckbox)
+                    tesseractText.text = result
+                }
+                AnalyzerType.BARCODE -> {
+                    Log.d(TAG, "Success from Barcode")
+                    Log.d(TAG, "value: $result")
+                }
             }
             val data = Intent()
             data.putExtra(MRZ_RESULT, result)
@@ -146,6 +162,7 @@ class MRZActivity : AppCompatActivity(), View.OnClickListener {
         private var debugPath: String?
     ) : ImageAnalysis.Analyzer {
 
+        private var barcodeBusy: Boolean = false
         private var mlkitBusy: Boolean = false
         private var tesseractBusy: Boolean = false
 
@@ -219,22 +236,6 @@ class MRZActivity : AppCompatActivity(), View.OnClickListener {
                         }
                     }
                 }
-            } else {
-                cm?.run {
-                    cm.activeNetworkInfo?.run {
-                        when (type) {
-                            ConnectivityManager.TYPE_WIFI -> {
-                                result = 2
-                            }
-                            ConnectivityManager.TYPE_MOBILE -> {
-                                result = 1
-                            }
-                            ConnectivityManager.TYPE_VPN -> {
-                                result = 3
-                            }
-                        }
-                    }
-                }
             }
             return result
         }
@@ -266,7 +267,73 @@ class MRZActivity : AppCompatActivity(), View.OnClickListener {
                     "Bitmap: (${mediaImage.width}, ${mediaImage.height}) Cropped: (${b.width}, ${b.height}), Rotation: ${imageProxy.imageInfo.rotationDegrees}"
                 )
 
-
+                //barcode and pdf417
+                if (!barcodeBusy && ((mode == "pdf417") || (mode == "barcode"))) {
+                    barcodeBusy = true
+                    Log.d("$TAG/MLKit", "barcode: mode is $mode")
+                    val start = System.currentTimeMillis()
+                    var options: BarcodeScannerOptions = BarcodeScannerOptions.Builder()
+                        .setBarcodeFormats(Barcode.FORMAT_ALL_FORMATS)
+                        .build()
+                    when (mode) {
+                        "pdf417" -> {
+                            options = BarcodeScannerOptions.Builder()
+                                .setBarcodeFormats(Barcode.FORMAT_PDF417)
+                                .build()
+                        }
+                        "barcode" -> {
+                            options = BarcodeScannerOptions.Builder()
+                                .setBarcodeFormats(
+                                    Barcode.FORMAT_CODE_128,
+                                    Barcode.FORMAT_CODE_39,
+                                    Barcode.FORMAT_CODE_93,
+                                    Barcode.FORMAT_CODABAR,
+                                    Barcode.FORMAT_DATA_MATRIX,
+                                    Barcode.FORMAT_EAN_13,
+                                    Barcode.FORMAT_EAN_8,
+                                    Barcode.FORMAT_ITF,
+                                    Barcode.FORMAT_QR_CODE,
+                                    Barcode.FORMAT_UPC_A,
+                                    Barcode.FORMAT_UPC_E,
+                                    Barcode.FORMAT_AZTEC
+                                )
+                                .build()
+                        }
+                    }
+                    val image = InputImage.fromBitmap(bf, imageProxy.imageInfo.rotationDegrees)
+                    val scanner = BarcodeScanning.getClient(options)
+                    Log.d("$TAG/MLKit", "barcode: process")
+                    scanner.process(image)
+                        .addOnSuccessListener { barcodes ->
+                            val timeRequired = System.currentTimeMillis() - start
+                            var rawValue = ""
+                            Log.d("$TAG/MLKit", "barcode: success: $timeRequired ms")
+                            if (barcodes.isNotEmpty()) {
+                                //                                val bounds = barcode.boundingBox
+                                //                                val corners = barcode.cornerPoints
+                                rawValue = barcodes[0].rawValue!!
+                                //                                val valueType = barcode.valueType
+                                val imageCachePathFile = "${context.cacheDir}/outputImage.jpg"
+                                bf.cacheImageToLocal(
+                                    imageCachePathFile,
+                                    imageProxy.imageInfo.rotationDegrees
+                                )
+                                var gson = Gson()
+                                var jsonString = gson.toJson(barcodeResult(
+                                    imageCachePathFile,
+                                    rawValue))
+                                onResult?.invoke(AnalyzerType.BARCODE, jsonString)
+                            } else {
+                                Log.d("$TAG/MLKit", "barcode: nothing detected")
+                            }
+                            barcodeBusy = false
+                        }
+                        .addOnFailureListener { e ->
+                            Log.d("$TAG/MLKit", "barcode: failure: ${e.message}")
+                            barcodeBusy = false
+                        }
+                }
+                //MRZ
                 var uiState = getUIState?.let { it() }
                 if (uiState?.mlkit!! && !mlkitBusy) {
                     mlkitBusy = true
@@ -421,9 +488,8 @@ class MRZActivity : AppCompatActivity(), View.OnClickListener {
                         tesseractBusy = false
                     }
                 }
-                imageProxy.close()
             }
-
+            imageProxy.close()
         }
     }
 
@@ -464,6 +530,22 @@ class MRZActivity : AppCompatActivity(), View.OnClickListener {
         findViewById<View>(R.id.close_button).setOnClickListener(this)
         flashButton?.setOnClickListener(this)
         context = applicationContext
+        val intent = intent
+        mode = intent.getStringExtra("mode")
+        when (mode) {
+            "mrz" -> {
+                mlkitCheckbox.isChecked = true
+            }
+            "tesseract" -> {
+                tesseractCheckbox.isChecked = true
+            }
+            "pdf417" -> {
+
+            }
+            "barcode" -> {
+            }
+        }
+
         UIState.mlkit = mlkitCheckbox.isChecked
         UIState.tesseract = tesseractCheckbox.isChecked
 
@@ -573,7 +655,7 @@ class MRZActivity : AppCompatActivity(), View.OnClickListener {
             baseContext, it) == PackageManager.PERMISSION_GRANTED
     }
 
-    fun getOutputDirectory(): File {
+    private fun getOutputDirectory(): File {
         val mediaDir = externalMediaDirs.firstOrNull()?.let {
             File(it, resources.getString(R.string.app_name)).apply { mkdirs() } }
         return if (mediaDir != null && mediaDir.exists())
@@ -588,6 +670,7 @@ class MRZActivity : AppCompatActivity(), View.OnClickListener {
         private lateinit var modelLayoutView: View
         private lateinit var CoordinatorLayoutView: View
         private lateinit var context: Context
+        private var mode: String? = null
     }
 
     fun onMlkitCheckboxClicked(view: View) {

@@ -69,7 +69,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="24dp"
                 android:layout_weight="1"
-                android:checked="true"
+                android:checked="false"
                 android:onClick="onMlkitCheckboxClicked"
                 android:text="MLKit"
                 android:textColor="@color/white" />
@@ -109,15 +109,6 @@
             android:orientation="vertical"
             android:paddingHorizontal="1dp">
 
-            <TextView
-                android:id="@+id/tesseractText"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:fontFamily="monospace"
-                android:inputType="textFilter|textMultiLine|textNoSuggestions"
-                android:textColor="@color/white"
-                android:textSize="9sp" />
-
             <Switch
                 android:id="@+id/tesseractCheckbox"
                 android:layout_width="match_parent"
@@ -127,6 +118,15 @@
                 android:onClick="onTesseractCheckboxClicked"
                 android:text="Tesseract"
                 android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/tesseractText"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:fontFamily="monospace"
+                android:inputType="textFilter|textMultiLine|textNoSuggestions"
+                android:textColor="@color/white"
+                android:textSize="9sp" />
 
             <TextView
                 android:id="@+id/tesseractMS"

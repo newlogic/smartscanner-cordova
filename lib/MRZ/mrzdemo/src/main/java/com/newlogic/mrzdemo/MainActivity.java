@@ -42,10 +42,12 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == Activity.RESULT_OK) {
                 String returnedResult = intent.getStringExtra(MRZActivity.MRZ_RESULT);
                 JsonObject jsonObject = JsonParser.parseString(returnedResult).getAsJsonObject();
-                String path = jsonObject.get("imagePath").getAsString();
-                Bitmap myBitmap = BitmapFactory.decodeFile(path);
-                ImageView image = findViewById(R.id.imageView);
-                image.setImageBitmap(myBitmap);
+                if (jsonObject.get("imagePath") != null) {
+                    String path = jsonObject.get("imagePath").getAsString();
+                    Bitmap myBitmap = BitmapFactory.decodeFile(path);
+                    ImageView image = findViewById(R.id.imageView);
+                    image.setImageBitmap(myBitmap);
+                }
                 TextView text = (TextView) findViewById(R.id.editTextTextMultiLine);
                 text.setText(returnedResult);
             }
@@ -54,6 +56,19 @@ public class MainActivity extends AppCompatActivity {
 
     public void startScanningActivity(@NonNull View view){
         Intent intent = new Intent(this, MRZActivity.class);
+        intent.putExtra("mode", "mrz");
+        startActivityForResult(intent, OP_MLKIT);
+    }
+
+    public void startPDF417ScanningActivity(@NonNull View view){
+        Intent intent = new Intent(this, MRZActivity.class);
+        intent.putExtra("mode", "pdf417");
+        startActivityForResult(intent, OP_MLKIT);
+    }
+
+    public void startBarcodeScanningActivity(@NonNull View view){
+        Intent intent = new Intent(this, MRZActivity.class);
+        intent.putExtra("mode", "barcode");
         startActivityForResult(intent, OP_MLKIT);
     }
 }
