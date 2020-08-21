@@ -27,6 +27,7 @@ import com.innovatrics.mrz.records.MrtdTd1;
 import com.innovatrics.mrz.records.MrtdTd2;
 import com.innovatrics.mrz.records.MrvA;
 import com.innovatrics.mrz.records.MrvB;
+import com.innovatrics.mrz.records.SenegalId;
 import com.innovatrics.mrz.records.SlovakId2_34;
 
 /**
@@ -38,6 +39,16 @@ public enum MrzFormat {
     /**
      * MRTD td1 format: A three line long, 30 characters per line format.
      */
+    SENEGAL_ID(3, 30, SenegalId.class) {
+
+        public boolean isFormatOf(String[] mrzRows) {
+            if (!super.isFormatOf(mrzRows)) {
+                return false;
+            }
+            return mrzRows[0].substring(0, 5).equals("I<SEN");
+        }
+    },
+
     MRTD_TD1(3, 30, MrtdTd1.class),
     /**
      * French 2 line/36 characters per line format, used with French ID cards.
