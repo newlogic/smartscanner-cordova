@@ -108,6 +108,7 @@ class MLKitActivity : AppCompatActivity(), View.OnClickListener {
 
     data class barcodeResult (
         val imagePath: String?,
+        val border: String?,
         val value: String?
     )
 
@@ -312,10 +313,11 @@ class MLKitActivity : AppCompatActivity(), View.OnClickListener {
                         .addOnSuccessListener { barcodes ->
                             val timeRequired = System.currentTimeMillis() - start
                             var rawValue: String
+                            var corners: String
                             Log.d("$TAG/MLKit", "barcode: success: $timeRequired ms")
                             if (barcodes.isNotEmpty()) {
                                 //                                val bounds = barcode.boundingBox
-                                //                                val corners = barcode.cornerPoints
+                                corners = barcodes[0].cornerPoints.toString()
                                 rawValue = barcodes[0].rawValue!!
                                 //                                val valueType = barcode.valueType
                                 val date = Calendar.getInstance().time
@@ -329,6 +331,7 @@ class MLKitActivity : AppCompatActivity(), View.OnClickListener {
                                 var gson = Gson()
                                 var jsonString = gson.toJson(barcodeResult(
                                     imageCachePathFile,
+                                    corners,
                                     rawValue))
                                 onResult?.invoke(AnalyzerType.BARCODE, jsonString)
                             } else {
