@@ -32,21 +32,16 @@
             <uses-permission android:name="android.permission.INTERNET"/>
             <uses-permission android:name="android.permission.CAMERA"/>
             <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
         </config-file>
 
         <source-file src="src/android/MLKitPlugin.java" target-dir="src/com/impactlabs/cordova/plugin" />
 
-        <lib-file src="aar/pdf417barcodelibrary-debug.aar" />
-        <lib-file src="aar/pdf417barcodelibrary-release.aar" />
-        <lib-file src="aar/mrzlibrary-debug.aar" />
-        <lib-file src="aar/mrzlibrary-release.aar" />
+        <lib-file src="aar/mlkitlibrary-debug.aar" />
+        <lib-file src="aar/mlkitlibrary-release.aar" />
 
         <config-file mode="merge" parent="/manifest/application" target="AndroidManifest.xml">
-            <activity android:name="com.impactlabs.impactlabsmlkitlibrary.activities.LiveBarcodeScanningActivity" 
-                android:theme="@style/AppTheme"/>
-            <activity android:name="com.impactlabs.impactlabsmlkitlibrary.settings.SettingsActivity" 
-                android:theme="@style/AppTheme"/>
-            <activity android:name="com.newlogic.mrzlibrary.MRZActivity" 
+            <activity android:name="com.newlogic.mlkitlibrary.MLKitActivity" 
                 android:theme="@style/AppTheme"/>
         </config-file>
     </platform>

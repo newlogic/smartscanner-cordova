@@ -1,3 +1,0 @@
-include ':mrzdemo'
-include ':mrzlibrary'
-rootProject.name = "Newlogic MRZLibrary"

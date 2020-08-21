@@ -7,7 +7,6 @@ buildscript {
 
      dependencies {
         // Add the Crashlytics Gradle plugin.
-        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.0.0-beta02'
         classpath 'com.google.gms:google-services:4.3.3'
         classpath 'com.android.tools.build:gradle:3.5.1'
         classpath 'io.fabric.tools:gradle:1.+'
@@ -45,11 +44,9 @@ dependencies {
 	implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'androidx.multidex:multidex:2.0.1'
 
-    debugImplementation files('libs/pdf417barcodelibrary-debug.aar')
-    debugImplementation files('libs/mrzlibrary-debug.aar')
+    debugImplementation files('libs/mlkitlibrary-debug.aar')
     
-    releaseImplementation files('libs/pdf417barcodelibrary-release.aar')
-    releaseImplementation files('libs/mrzlibrary-release.aar')
+    releaseImplementation files('libs/mlkitlibrary-release.aar')
 
      // AndroidX
     implementation 'androidx.appcompat:appcompat:1.1.0'
@@ -61,14 +58,10 @@ dependencies {
 
     // ML Kit dependencies
     implementation 'com.google.android.gms:play-services-mlkit-text-recognition:16.1.0'
-    implementation 'com.google.android.gms:play-services-vision:20.1.0'
-    implementation 'com.google.android.gms:play-services-vision-common:19.1.0'
-    implementation 'com.google.android.gms:play-services-vision-image-label:18.0.4'
-    
-    // Firebase
-    implementation 'com.google.firebase:firebase-ml-common:22.1.1'
-    implementation 'com.google.firebase:firebase-ml-vision:24.0.3'
-    implementation 'com.google.firebase:firebase-ml-vision-barcode-model:16.1.1'
+    implementation 'com.google.mlkit:barcode-scanning:16.0.2'
+    // implementation 'com.google.android.gms:play-services-vision:20.1.0'
+    // implementation 'com.google.android.gms:play-services-vision-common:19.1.0'
+    // implementation 'com.google.android.gms:play-services-vision-image-label:18.0.4'
 
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.11.0'
