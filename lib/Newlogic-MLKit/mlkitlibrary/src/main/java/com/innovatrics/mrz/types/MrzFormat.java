@@ -35,9 +35,10 @@ import com.innovatrics.mrz.records.SlovakId2_34;
  * @author Martin Vysny, Pierrick Martin
  */
 public enum MrzFormat {
-
     /**
-     * MRTD td1 format: A three line long, 30 characters per line format.
+     * Senegal 3 line/30 characters per line format.
+     * Need to occur before the {@link #MRTD_TD1} enum constant because of the same values for row/column.
+     * See below for the "if" test.
      */
     SENEGAL_ID(3, 30, SenegalId.class) {
 
@@ -48,7 +49,9 @@ public enum MrzFormat {
             return mrzRows[0].substring(0, 5).equals("I<SEN");
         }
     },
-
+    /**
+     * MRTD td1 format: A three line long, 30 characters per line format.
+     */
     MRTD_TD1(3, 30, MrtdTd1.class),
     /**
      * French 2 line/36 characters per line format, used with French ID cards.
