@@ -108,7 +108,7 @@ class MLKitActivity : AppCompatActivity(), View.OnClickListener {
 
     data class barcodeResult (
         val imagePath: String?,
-        val border: String?,
+        val corners: String?,
         val value: String?
     )
 
@@ -313,11 +313,18 @@ class MLKitActivity : AppCompatActivity(), View.OnClickListener {
                         .addOnSuccessListener { barcodes ->
                             val timeRequired = System.currentTimeMillis() - start
                             var rawValue: String
-                            var corners: String
+                            var cornersString: String
                             Log.d("$TAG/MLKit", "barcode: success: $timeRequired ms")
                             if (barcodes.isNotEmpty()) {
                                 //                                val bounds = barcode.boundingBox
-                                corners = barcodes[0].cornerPoints.toString()
+                                val corners = barcodes[0].cornerPoints
+                                val builder = StringBuilder()
+                                if (corners != null) {
+                                    for (corner in corners) {
+                                        builder.append("${corner.x},${corner.y} ")
+                                    }
+                                }
+                                cornersString = builder.toString()
                                 rawValue = barcodes[0].rawValue!!
                                 //                                val valueType = barcode.valueType
                                 val date = Calendar.getInstance().time
@@ -331,7 +338,7 @@ class MLKitActivity : AppCompatActivity(), View.OnClickListener {
                                 var gson = Gson()
                                 var jsonString = gson.toJson(barcodeResult(
                                     imageCachePathFile,
-                                    corners,
+                                    cornersString,
                                     rawValue))
                                 onResult?.invoke(AnalyzerType.BARCODE, jsonString)
                             } else {
