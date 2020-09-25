@@ -369,7 +369,7 @@ class MLKitActivity : AppCompatActivity(), View.OnClickListener {
 //                    await(
                         recognizer.process(image)
                             .addOnSuccessListener { visionText ->
-                                modelLayoutView.visibility = View.INVISIBLE
+                                modelLayoutView.modelText.visibility = View.INVISIBLE
                                 val timeRequired = System.currentTimeMillis() - start
 
                                 Log.d("$TAG/MLKit", "TextRecognition: success: $timeRequired ms")
@@ -442,7 +442,7 @@ class MLKitActivity : AppCompatActivity(), View.OnClickListener {
                                 } else {
                                     modelLayoutView.modelText.text = context.getString(R.string.ModelText)
                                 }
-                                modelLayoutView.visibility = View.VISIBLE
+                                modelLayoutView.modelText.visibility = View.VISIBLE
                                 onStat?.invoke(
                                     AnalyzerType.MLKIT,
                                     mlStartTime,
@@ -546,7 +546,7 @@ class MLKitActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mrz)
-        modelLayoutView = findViewById(R.id.modelLayout)
+        modelLayoutView = findViewById(R.id.viewLayout)
         CoordinatorLayoutView =  findViewById(R.id.CoordinatorLayout)
         flashButton = findViewById<View>(R.id.flash_button)
         Companion.rectangle = findViewById<View>(R.id.rectimage)
