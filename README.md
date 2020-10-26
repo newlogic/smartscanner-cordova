@@ -1,2 +1,2 @@
-# MLKitCordovaPlugin
-the repository for the MLKit Plugin to be used with the Base MLKit Cordova project
+# idpass-smart-scanner-cordova
+the repository for the Cordova Plugin to be used with the ID Pass Smart Scanner core library
