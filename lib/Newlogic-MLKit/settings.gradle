@@ -1,3 +1,0 @@
-include ':mlkitdemo'
-include ':mlkitlibrary'
-rootProject.name = "Newlogic MLkitLibrary"
