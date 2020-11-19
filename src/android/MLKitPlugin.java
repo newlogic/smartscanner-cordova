@@ -13,7 +13,8 @@ import org.json.JSONException;
 import timber.log.Timber;
 
 // Custom Activity paths
-import com.newlogic.mlkitlibrary.MLKitActivity;
+import com.newlogic.mlkitlib.newlogic.SmartScannerActivity;
+import com.newlogic.mlkitlib.newlogic.platform.ScannerOptions;
 
 public class MLKitPlugin extends CordovaPlugin {
 
@@ -26,21 +27,20 @@ public class MLKitPlugin extends CordovaPlugin {
     public boolean execute(String action, JSONArray args,
                            final CallbackContext callbackContext) {
         
-        String mode = "mrz";
-
         this.callbackContext = callbackContext;
         if (action.equals("startMLActivity")) {
             Activity activity = this.cordova.getActivity();
-            Intent intent = new Intent(activity, MLKitActivity.class);
+            Intent intent = new Intent(activity, SmartScannerActivity.class);
             if (args.length() > 0) {
                 try {
-                    String value = args.getJSONObject(0).getString("mode");   
-                    if (value != null) mode = value;  
+                    Gson gson = new Gson();
+                    JSONObject jsonOptions = args.getJSONObject(0);
+                    ScannerOptions scannerOptions = gson.fromJson(jsonOptions.toString(), ScannerOptions.class);
+                    intent.putExtra("scanner_options", scannerOptions);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
-            intent.putExtra("mode", mode);
             cordova.setActivityResultCallback (this);
             activity.startActivityForResult(intent,OP_MLKIT);
             return true;
@@ -60,7 +60,7 @@ public class MLKitPlugin extends CordovaPlugin {
             Timber.d("Plugin post MLKit Activity resultCode %d", resultCode);
         
             if (resultCode == Activity.RESULT_OK) {
-                String returnedResult = intent.getStringExtra(MLKitActivity.MLKIT_RESULT);
+                String returnedResult = intent.getStringExtra(SmartScannerActivity.MLKIT_RESULT);
                 Timber.d("Plugin post MLKit Activity result %s", returnedResult);
                 pluginResult = new PluginResult(PluginResult.Status.OK, returnedResult);
             } else if (resultCode == Activity.RESULT_CANCELED) {
