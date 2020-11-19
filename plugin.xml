@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        id="cordova-plugin-impactlabs-mlkit" version="0.2.2">
+        id="cordova-plugin-impactlabs-mlkit" version="0.2.4">
     <name>MLKitPlugin</name>
 
     <description>An Android Cordova plugin that allows users to display call on native classes defined in other MLKit Projects.</description>
     <license>MIT</license>
 
     <keywords>cordova,android,mlkit,firebase,alert</keywords>
-    <repo>https://github.com/newlogic42/MLKitCordovaPlugin.git</repo>
-    <issue>https://github.com/newlogic42/MLKitCordovaPlugin/issues</issue>
+    <repo>https://github.com/newlogic/idpass-smart-scanner-cordova.git</repo>
+    <issue>https://github.com/newlogic/idpass-smart-scanner-cordova/issues</issue>
   
     <engines>
         <engine name="cordova" version=">=3.0.0"/>
@@ -41,7 +41,7 @@
         <lib-file src="aar/mlkitlibrary-release.aar" />
 
         <config-file mode="merge" parent="/manifest/application" target="AndroidManifest.xml">
-            <activity android:name="com.newlogic.mlkitlibrary.MLKitActivity" 
+            <activity android:name="com.newlogic.mlkitlib.newlogic.SmartScannerActivity" 
                 android:theme="@style/AppTheme"/>
         </config-file>
     </platform>
