@@ -9,6 +9,7 @@ import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
+import com.google.gson.Gson
 
 import timber.log.Timber;
 
@@ -34,8 +35,7 @@ public class MLKitPlugin extends CordovaPlugin {
             if (args.length() > 0) {
                 try {
                     Gson gson = new Gson();
-                    JSONObject jsonOptions = args.getJSONObject(0);
-                    ScannerOptions scannerOptions = gson.fromJson(jsonOptions.toString(), ScannerOptions.class);
+                    ScannerOptions scannerOptions = gson.fromJson(args.getJSONObject(0).toString(), ScannerOptions.class);
                     intent.putExtra("scanner_options", scannerOptions);
                 } catch (JSONException e) {
                     e.printStackTrace();
