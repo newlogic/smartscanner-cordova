@@ -57,14 +57,14 @@ public class MLKitPlugin extends CordovaPlugin {
         PluginResult pluginResult;
 
         if (requestCode == OP_MLKIT) {
-            Timber.d("Plugin post MLKit Activity resultCode %d", resultCode);
+            Timber.d("Plugin post SmartScannerActivity resultCode %d", resultCode);
         
             if (resultCode == Activity.RESULT_OK) {
                 String returnedResult = intent.getStringExtra(SmartScannerActivity.MLKIT_RESULT);
-                Timber.d("Plugin post MLKit Activity result %s", returnedResult);
+                Timber.d("Plugin post SmartScannerActivity result %s", returnedResult);
                 pluginResult = new PluginResult(PluginResult.Status.OK, returnedResult);
             } else if (resultCode == Activity.RESULT_CANCELED) {
-                Timber.d("Plugin post MLKit Activity. RESULT CANCELLED");
+                Timber.d("Plugin post SmartScannerActivity. RESULT CANCELLED");
                 pluginResult = new PluginResult(PluginResult.Status.NO_RESULT, "Scanning Cancelled.");
             } else {
                 callbackContext.error("Scanning Failed.");
@@ -74,7 +74,6 @@ public class MLKitPlugin extends CordovaPlugin {
             callbackContext.error("Unknown Request Code!");
             pluginResult = new PluginResult(PluginResult.Status.ERROR, "Unknown Request Code!");
         }
-
 
         pluginResult.setKeepCallback(true);
         callbackContext.sendPluginResult(pluginResult);

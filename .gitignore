@@ -12,3 +12,4 @@ gradle
 .idea
 .gradle
 node_modules
+/local.properties
