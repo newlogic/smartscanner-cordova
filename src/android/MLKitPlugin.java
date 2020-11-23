@@ -14,8 +14,8 @@ import com.google.gson.Gson
 import timber.log.Timber;
 
 // Custom Activity paths
-import com.newlogic.mlkitlib.newlogic.SmartScannerActivity;
-import com.newlogic.mlkitlib.newlogic.platform.ScannerOptions;
+import com.newlogic.mlkitlib.idpass.SmartScannerActivity;
+import com.newlogic.mlkitlib.idpass.config.ScannerOptions;
 
 public class MLKitPlugin extends CordovaPlugin {
 
@@ -64,7 +64,7 @@ public class MLKitPlugin extends CordovaPlugin {
                 Timber.d("Plugin post SmartScannerActivity result %s", returnedResult);
                 pluginResult = new PluginResult(PluginResult.Status.OK, returnedResult);
             } else if (resultCode == Activity.RESULT_CANCELED) {
-                Timber.d("Plugin post SmartScannerActivity. RESULT CANCELLED");
+                Timber.d("Plugin post SmartScannerActivity RESULT CANCELLED");
                 pluginResult = new PluginResult(PluginResult.Status.NO_RESULT, "Scanning Cancelled.");
             } else {
                 callbackContext.error("Scanning Failed.");
