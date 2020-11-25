@@ -9,7 +9,7 @@ import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
-import com.google.gson.Gson
+import com.google.gson.Gson;
 
 import timber.log.Timber;
 
