@@ -17,7 +17,7 @@ buildscript {
 
 allprojects {
     repositories {
-    	google() 
+    	google()
         mavenCentral()
         maven {
         url "https://maven.google.com"
@@ -44,9 +44,8 @@ dependencies {
 	implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'androidx.multidex:multidex:2.0.1'
 
-    debugImplementation files('libs/mlkitlibrary-debug.aar')
-    
-    releaseImplementation files('libs/mlkitlibrary-release.aar')
+    debugImplementation files('libs/smartscannerlib-debug.aar')
+    releaseImplementation files('libs/smartscannerlib-release.aar')
 
      // AndroidX
     implementation 'androidx.appcompat:appcompat:1.1.0'
@@ -59,9 +58,6 @@ dependencies {
     // ML Kit dependencies
     implementation 'com.google.android.gms:play-services-mlkit-text-recognition:16.1.0'
     implementation 'com.google.mlkit:barcode-scanning:16.0.2'
-    // implementation 'com.google.android.gms:play-services-vision:20.1.0'
-    // implementation 'com.google.android.gms:play-services-vision-common:19.1.0'
-    // implementation 'com.google.android.gms:play-services-vision-image-label:18.0.4'
 
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.11.0'
@@ -73,7 +69,7 @@ dependencies {
 
     // Timber
     implementation 'com.jakewharton.timber:timber:4.7.1'
-    
+
     // CameraX
     def camerax_version = "1.0.0-beta06"
     // CameraX core library using camera2 implementation
