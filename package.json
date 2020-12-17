@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-impactlabs-mlkit",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "An Android Cordova plugin that allows users to display call on native classes defined in other MLKit Projects.",
   "cordova": {
     "id": "cordova-plugin-impactlabs-mlkit",
