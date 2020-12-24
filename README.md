@@ -96,7 +96,7 @@ isManualCapture: true
 label: 'sample label string'
 ```
 
-## Plugin call (Capacitor/Cordova)
+## Plugin call
 ---------------
 MRZ:
 ```
