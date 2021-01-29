@@ -1,17 +1,14 @@
 {
-  "name": "cordova-plugin-impactlabs-mlkit",
-  "version": "1.0.2",
-  "description": "An Android Cordova plugin that allows users to display call on native classes defined in other MLKit Projects.",
+  "name": "@idpass/smartscanner-cordova",
+  "version": "0.3.0-beta.0",
+  "description": "Capacitor plugin for the SmartScanner Core library to scan MRZ and barcodes",
   "cordova": {
-    "id": "cordova-plugin-impactlabs-mlkit",
+    "id": "smartscanner-cordova",
     "platforms": [
       "android"
     ]
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/newlogic/idpass-smart-scanner-cordova.git"
-  },
+  "repository": "idpass/smartscanner-cordova",
   "keywords": [
     "ML Kit",
     "Barcode Scanning",
@@ -37,10 +34,13 @@
   "author": "Newlogic",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/newlogic/idpass-smart-scanner-cordova/issues"
+    "url": "https://github.com/idpass/smartscanner-cordova/issues"
   },
-  "homepage": "https://github.com/newlogic/idpass-smart-scanner-cordova",
+  "homepage": "https://github.com/idpass/smartscanner-cordova",
   "dependencies": {
     "gulp": "^4.0.2"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

@@ -23,7 +23,7 @@ All code changes happen through pull requests. Your pull requests to the codebas
 
 ## Reporting bugs
 
-We use [GitHub issues](https://github.com/newlogic/smartscanner-cordova/issues) to track bugs. Report a bug by [opening a new issue](https://github.com/newlogic/smartscanner-cordova/issues/new).
+We use [GitHub issues](https://github.com/idpass/smartscanner-cordova/issues) to track bugs. Report a bug by [opening a new issue](https://github.com/idpass/smartscanner-cordova/issues/new).
 
 Write bug reports with detail, background, and sample code. An issue template is provided when opening a new issue, make sure to provide all the requested information to make it easier to address the issue.
 

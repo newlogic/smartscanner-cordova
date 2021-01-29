@@ -8,13 +8,13 @@ This plugin can be installed from NPM:
 
 ```bash
 # Using npm
-npm install smartscanner-cordova
+npm install @idpass/smartscanner-cordova
 
 # Using yarn
-yarn add smartscanner-cordova
+yarn add @idpass/smartscanner-cordova
 
 # Then let cordova know about the plugin
-cordova plugin add smartscanner-cordova
+cordova plugin add @idpass/smartscanner-cordova
 ```
 
 ## Usage
@@ -73,7 +73,7 @@ const result = await SmartScannerPlugin.executeScanner({
 });
 ```
 
-Refer to the [API Reference](https://github.com/newlogic/smartscanner-cordova/wiki/API-Reference) for more information about the available API options and the returned result.
+Refer to the [API Reference](https://github.com/idpass/smartscanner-cordova/wiki/API-Reference) for more information about the available API options and the returned result.
 
 ## Related projects
 
