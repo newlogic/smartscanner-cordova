@@ -1,6 +1,6 @@
 {
   "name": "@idpass/smartscanner-cordova",
-  "version": "0.3.0-beta.0",
+  "version": "0.3.0-beta.1",
   "description": "Capacitor plugin for the SmartScanner Core library to scan MRZ and barcodes",
   "cordova": {
     "id": "smartscanner-cordova",
