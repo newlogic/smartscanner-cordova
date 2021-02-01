@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        id="cordova-plugin-impactlabs-mlkit" version="1.0.2">
-    <name>MLKitPlugin</name>
+        id="@idpass/smartscanner-cordova" version="0.3.0-beta.1">
+    <name>SmartScannerPlugin</name>
 
-    <description>An Android Cordova plugin that allows users to display call on native classes defined in other MLKit Projects.</description>
-    <license>MIT</license>
+    <description>Cordova plugin for the SmartScanner Core library to scan MRZ and barcodes.</description>
+    <license>Apache-2.0</license>
 
     <keywords>cordova,android,mlkit,firebase,alert</keywords>
-    <repo>https://github.com/newlogic/idpass-smart-scanner-cordova.git</repo>
-    <issue>https://github.com/newlogic/idpass-smart-scanner-cordova/issues</issue>
+    <repo>https://github.com/idpass/smartscanner-cordova.git</repo>
+    <issue>https://github.com/idpass/smartscanner-cordova/issues</issue>
 
     <engines>
         <engine name="cordova" version=">=3.0.0"/>
@@ -37,8 +37,8 @@
 
         <source-file src="src/android/MLKitPlugin.java" target-dir="src/com/impactlabs/cordova/plugin" />
 
-        <lib-file src="aar/mlkitlibrary-debug.aar" />
-        <lib-file src="aar/mlkitlibrary-release.aar" />
+        <lib-file src="aar/smartscannerlib-debug.aar" />
+        <lib-file src="aar/smartscannerlib-release.aar" />
 
         <config-file mode="merge" parent="/manifest/application" target="AndroidManifest.xml">
             <activity android:name="org.idpass.smartscanner.lib.SmartScannerActivity"
