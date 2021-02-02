@@ -1,4 +1,4 @@
-package com.impactlabs.cordova.plugin;
+package org.idpass.cordova.plugin;
 // The native API
 
 import android.app.Activity;
@@ -15,11 +15,11 @@ import timber.log.Timber;
 
 // ID PASS SmartScanner paths
 import org.idpass.smartscanner.lib.SmartScannerActivity;
-import org.idpass.smartscanner.lib.config.ScannerOptions;
+import org.idpass.smartscanner.lib.scanner.config.ScannerOptions;
 
-public class MLKitPlugin extends CordovaPlugin {
+public class SmartScannerPlugin extends CordovaPlugin {
 
-    private final int OP_MLKIT = 1001;
+    private final int REQUEST_OP_SCANNER = 1001;
     public static final int RESULT_SCAN_FAILED = 2;
 
     private CallbackContext callbackContext = null;
@@ -29,7 +29,7 @@ public class MLKitPlugin extends CordovaPlugin {
                            final CallbackContext callbackContext) {
 
         this.callbackContext = callbackContext;
-        if (action.equals("startMLActivity")) {
+        if (action.equals("START_SCANNER")) {
             Activity activity = this.cordova.getActivity();
             Intent intent = new Intent(activity, SmartScannerActivity.class);
             if (args.length() > 0) {
@@ -42,7 +42,7 @@ public class MLKitPlugin extends CordovaPlugin {
                 }
             }
             cordova.setActivityResultCallback (this);
-            activity.startActivityForResult(intent,OP_MLKIT);
+            activity.startActivityForResult(intent,REQUEST_OP_SCANNER);
             return true;
         } else {
             callbackContext.error("\"" + action + "\" is not a recognized action.");
@@ -56,7 +56,7 @@ public class MLKitPlugin extends CordovaPlugin {
 
         PluginResult pluginResult;
 
-        if (requestCode == OP_MLKIT) {
+        if (requestCode == REQUEST_OP_SCANNER) {
             Timber.d("Plugin post SmartScannerActivity resultCode %d", resultCode);
 
             if (resultCode == Activity.RESULT_OK) {
