@@ -15,16 +15,16 @@
         <engine name="cordova" version=">=3.0.0"/>
     </engines>
 
-    <js-module src="www/mlkitplugin.js" name="MLKitPlugin">
-        <clobbers target="window.plugins.mlkitplugin" />
+    <js-module src="www/smartscannerplugin.js" name="SmartScannerPlugin">
+        <clobbers target="window.plugins.smartscannerplugin" />
     </js-module>
     <platform name="android">
 
-        <framework src="src/android/mlkitplugin.gradle" custom="true" type="gradleReference" />
+        <framework src="src/android/smartscannerplugin.gradle" custom="true" type="gradleReference" />
 
         <config-file target="res/xml/config.xml" parent="/*">
-            <feature name="MLKitPlugin">
-                <param name="android-package" value="com.impactlabs.cordova.plugin.MLKitPlugin"/>
+            <feature name="SmartScannerPlugin">
+                <param name="android-package" value="org.idpass.cordova.plugin.SmartScannerPlugin"/>
             </feature>
         </config-file>
 
@@ -35,7 +35,7 @@
             <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
         </config-file>
 
-        <source-file src="src/android/MLKitPlugin.java" target-dir="src/com/impactlabs/cordova/plugin" />
+        <source-file src="src/android/SmartScannerPlugin.java" target-dir="src/org/idpass/cordova/plugin" />
 
         <lib-file src="aar/smartscannerlib-debug.aar" />
         <lib-file src="aar/smartscannerlib-release.aar" />
