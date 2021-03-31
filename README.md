@@ -1,6 +1,6 @@
 # SmartScanner Cordova
 
-Cordova plugin for the [SmartScanner Core](https://github.com/idpass/smartscanner-core) library to scan MRZ and barcodes.
+Cordova plugin for the [SmartScanner Core](https://github.com/idpass/smartscanner-core) library to scan NFC, MRZ and barcodes.
 
 ## Installation
 
