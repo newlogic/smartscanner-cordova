@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        id="smartscanner-cordova" version="0.3.6">
+        id="smartscanner-cordova" version="0.3.7">
     <name>SmartScannerPlugin</name>
 
     <description>Cordova plugin for the SmartScanner Core library to scan MRZ and barcodes.</description>
@@ -39,6 +39,7 @@
 
         <lib-file src="aar/smartscannerlib-debug.aar" />
         <lib-file src="aar/smartscannerlib-release.aar" />
+        <lib-file src="aar/smartscanner-mrz-parser.aar" />
 
         <config-file mode="merge" parent="/manifest/application" target="AndroidManifest.xml">
             <activity android:name="org.idpass.smartscanner.lib.SmartScannerActivity"
