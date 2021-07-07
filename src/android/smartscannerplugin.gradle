@@ -47,7 +47,8 @@ dependencies {
     // SmartScanner
     debugImplementation files('libs/smartscannerlib-debug.aar')
     releaseImplementation files('libs/smartscannerlib-release.aar')
-    implementation files('aar/smartscanner-mrz-parser.aar')
+    debugImplementation files('aar/smartscanner-mrz-parser-debug.aar')
+    releaseImplementation files('aar/smartscanner-mrz-parser-release.aar')
 
      // AndroidX
     implementation 'androidx.appcompat:appcompat:1.1.0'

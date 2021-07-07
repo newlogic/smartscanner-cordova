@@ -39,7 +39,8 @@
 
         <lib-file src="aar/smartscannerlib-debug.aar" />
         <lib-file src="aar/smartscannerlib-release.aar" />
-        <lib-file src="aar/smartscanner-mrz-parser.aar" />
+        <lib-file src="aar/smartscanner-mrz-parser-debug.aar" />
+        <lib-file src="aar/smartscanner-mrz-parser-release.aar" />
 
         <config-file mode="merge" parent="/manifest/application" target="AndroidManifest.xml">
             <activity android:name="org.idpass.smartscanner.lib.SmartScannerActivity"
