@@ -44,7 +44,7 @@ dependencies {
 	implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation fileTree(include: ['*.aar'], dir: 'libs')
     implementation 'androidx.multidex:multidex:2.0.1'
-    
+
     // SmartScanner
     debugImplementation files('libs/smartscannerlib-debug.aar')
     releaseImplementation files('libs/smartscannerlib-release.aar')
