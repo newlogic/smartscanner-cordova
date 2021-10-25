@@ -8,6 +8,9 @@
       "android"
     ]
   },
+  "scripts": {
+    "test": "npm run build"
+  },
   "repository": "idpass/smartscanner-cordova",
   "keywords": [
     "ML Kit",
