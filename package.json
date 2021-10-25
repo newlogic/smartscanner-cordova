@@ -9,7 +9,7 @@
     ]
   },
   "scripts": {
-    "test": "npm run build"
+    "test": "npm run"
   },
   "repository": "idpass/smartscanner-cordova",
   "keywords": [
