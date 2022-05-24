@@ -1,6 +1,6 @@
 {
   "name": "@idpass/smartscanner-cordova",
-  "version": "0.3.20",
+  "version": "0.3.21",
   "description": "Cordova plugin for the SmartScanner Core library to scan MRZ and barcodes",
   "cordova": {
     "id": "@idpass/smartscanner-cordova",
